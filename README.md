@@ -1,6 +1,6 @@
 # JTE Spring Security Extras
 
-This library is a utilities package that allows using Spring Security Authentication and CSRF protection info inside JTE Templates.
+This library is a helper package that facilitates the use of Spring Security Authentication and CSRF protection information within JTE templates.
 
 ## Usage:
 
@@ -8,8 +8,8 @@ This library is a utilities package that allows using Spring Security Authentica
 
 ```xml
 <dependency>
-	<groupId>dev.msouza</groupId>
-	<artifactId>jte-spring-security-extras</artifactId>
+    <groupId>dev.msouza</groupId>
+    <artifactId>jte-spring-security-extras</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```

@@ -9,7 +9,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>jte-spring-security-extras</name>
-    <description>Utilities package that allow using Spring Security Authentication and CSRF protection info inside JTE Templates</description>
+    <description>This library is a helper package that facilitates the use of Spring Security Authentication and CSRF protection information within JTE templates.</description>
     <url>https://github.com/matheusviegas/jte-spring-security-extras</url>
     <developers>
         <developer>
