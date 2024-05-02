@@ -1,5 +1,6 @@
 package dev.msouza.jte;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -70,6 +71,34 @@ public class JteSecurityContext {
 
     public static CsrfToken getCsrfToken() {
         return Optional.ofNullable(context.get()).map(JteSecurityInfo::getCsrfToken).orElse(null);
+    }
+
+    public static Object getSessionAttribute(String attributeName) {
+        return Optional.ofNullable(context.get())
+                .map(JteSecurityInfo::getRequest)
+                .map(HttpServletRequest::getSession)
+                .map(session -> session.getAttribute(attributeName))
+                .orElse(null);
+    }
+
+    public static <T> T getSessionAttributeAs(String attributeName, Class<T> type) {
+        return Optional.ofNullable(getSessionAttribute(attributeName))
+                .map(type::cast)
+                .orElse(null);
+    }
+
+    public static String getRequestParam(String paramName) {
+        return Optional.ofNullable(context.get())
+                .map(JteSecurityInfo::getRequest)
+                .map(request -> request.getParameter(paramName))
+                .orElse(null);
+    }
+
+    public static String getRequestURI() {
+        return Optional.ofNullable(context.get())
+                .map(JteSecurityInfo::getRequest)
+                .map(HttpServletRequest::getRequestURI)
+                .orElse(null);
     }
 
     private static <T> T getFromUserDetailsIfAvailableOrElse(Function<UserDetails, T> extractor, Supplier<T> orElse) {

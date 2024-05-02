@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.util.Optional;
 
@@ -20,6 +21,10 @@ public class JteSecurityContextHandlerInterceptor implements HandlerInterceptor 
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+        if (handler instanceof ResourceHttpRequestHandler) {
+            return true;
+        }
+
         try {
             Authentication authentication = Optional.ofNullable(SecurityContextHolder.getContext())
                     .map(SecurityContext::getAuthentication)
@@ -30,7 +35,7 @@ public class JteSecurityContextHandlerInterceptor implements HandlerInterceptor 
                 csrfToken = token;
             }
 
-            JteSecurityContext.init(new JteSecurityInfo(authentication, csrfToken));
+            JteSecurityContext.init(new JteSecurityInfo(authentication, csrfToken, request));
             logger.trace("Initialized JteSecurityContext");
         } catch (Exception e) {
             logger.error("Error creating JteSecurityContext", e);
